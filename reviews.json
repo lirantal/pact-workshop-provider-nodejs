@@ -1,0 +1,14 @@
+{
+  "reviews": [
+    {
+      "id": "1",
+      "total": 100,
+      "averageRating": 7.5
+    },
+    {
+      "id": "2",
+      "total": 32,
+      "averageRating": 9
+    }
+  ]
+}
