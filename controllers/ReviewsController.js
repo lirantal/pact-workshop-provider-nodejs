@@ -1,4 +1,4 @@
-const Repository = require('../repository')
+const Repository = require('../repositories/reviews')
 
 class ReviewsController {
   static async get(req, res) {

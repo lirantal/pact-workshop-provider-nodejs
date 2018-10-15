@@ -1,4 +1,4 @@
-const Repository = require('../repository')
+const Repository = require('../repositories/reviews')
 const DataSet = require('../data/reviews.json')
 
 function populateData() {
