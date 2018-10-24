@@ -1,0 +1,36 @@
+{
+  "stats": [
+    {
+      "id": "1",
+      "totalReviews": 100,
+      "averageRating": 7.5
+    },
+    {
+      "id": "2",
+      "totalReviews": 32,
+      "averageRating": 8.5
+    }
+  ],
+  "reviews": [
+    {
+      "id": "1",
+      "movieId": "1",
+      "headline": "this is a good movie",
+      "message": "because it features keanu reeves",
+      "ipAddress": "127.0.0.1",
+      "gender": "F",
+      "anonymous": true,
+      "createdAt": "2018-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "movieId": "1",
+      "headline": "did you see that ssh2 remote exploit?",
+      "message": "trinity is the best hacker ever!",
+      "ipAddress": "8.8.4.4",
+      "gender": "M",
+      "anonymous": false,
+      "createdAt": "2018-01-02T00:00:00.000Z"
+    }
+  ]
+}

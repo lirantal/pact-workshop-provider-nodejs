@@ -13,6 +13,7 @@ class ReviewsController {
       return res.status(200).json(reviewsSummaryDTO)
 
     } catch (err) {
+      console.error(err)
       return res.status(500).end()
     }
   }

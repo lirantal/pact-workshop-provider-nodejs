@@ -1,28 +1,56 @@
-const Repository = require('../repositories/reviews')
-const DataSet = require('../data/reviews.json')
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+const ReviewsRepository = require('../repositories/reviews')
+const StatsRepository = require('../repositories/stats')
+const DataSet = require('../data/seed.json')
 
-function populateData() {
+const adapter = new FileSync('./db.json')
+const db = low(adapter)
+
+function populateReviews() {
   const documentInserts = []
 
-  console.log('+ Seeding DB data')
-  DataSet.forEach(reviewItem => {
-    console.log(`  - ${reviewItem.id}`)
-    documentInserts.push(Repository.insert(reviewItem))
+  console.log('+ Seeding DB data with reviews')
+  DataSet['reviews'].forEach(item => {
+    console.log(`  - ${item.id}`)
+    documentInserts.push(ReviewsRepository.insert(item))
   })
 
   return Promise.all(documentInserts)
 }
 
-function clearAllData() {
-  return Repository.deleteAll()
+function populateStats() {
+  const documentInserts = []
+
+  console.log('+ Seeding DB data with stats')
+  DataSet['stats'].forEach(item => {
+    console.log(`  - ${item.id}`)
+    documentInserts.push(StatsRepository.insert(item))
+  })
+
+  return Promise.all(documentInserts)
+}
+
+function deleteAllReviews() {
+  return ReviewsRepository.deleteAll()
+}
+
+function deleteAllStats() {
+  return StatsRepository.deleteAll()
 }
 
 function tableMigrate() {
-  return Repository.initModel()
+  return db.defaults({
+      stats: [],
+      reviews: []
+    })
+    .write()
 }
 
 module.exports = {
-  populateData,
+  populateReviews,
+  populateStats,
   tableMigrate,
-  clearAllData
+  deleteAllReviews,
+  deleteAllStats
 }

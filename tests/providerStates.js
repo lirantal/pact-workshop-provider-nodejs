@@ -19,17 +19,23 @@ statesRouter.post('/setup', statesController)
 async function statesController(req, res) {
   try {
     const state = req.body.state
-    
-    await seed.tableMigrate()
+  
     console.log('Transition to state: ', state)
 
     switch (state) {
       case 'Has no reviews':
-        await seed.clearAllData()
+        await seed.deleteAllReviews()
+        break
+      case 'Has no statistics':
+        await seed.deleteAllStats()
         break
       case 'Has a few reviews':
-        await seed.clearAllData()
-        await seed.populateData()
+        await seed.deleteAllReviews()
+        await seed.populateReviews()
+        break
+      case 'Has reviews statistics for movie':
+        await seed.deleteAllStats()
+        await seed.populateStats()
         break
       case 'Has a single review':
         // TODO
@@ -51,4 +57,6 @@ app.use(cookieParser())
 
 app.use('/', statesRouter)
 
+// database migration first, then listen
+seed.tableMigrate()
 app.listen(STATES_API_PORT)

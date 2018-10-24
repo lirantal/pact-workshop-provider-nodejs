@@ -10,28 +10,28 @@ function getDbHandler() {
 
 class Repository {
   static insert(item) {
-    return getDbHandler().get('reviews')
+    return getDbHandler().get('stats')
     .push(item)
     .write() 
   }
 
-  static async getAll(movieIds) { 
-    const reviews = getDbHandler().get('reviews').value()
+  static async getAll(movieIds) {
+    const stats = getDbHandler().get('stats').value()
     
-    let reviewsFiltered
+    let statsFiltered
     if (movieIds && Array.isArray(movieIds) && movieIds.length > 0) {
-      reviewsFiltered = reviews.filter(function filterMovieIds(item) {
-        return movieIds.indexOf(item.movieId) !== -1
+      statsFiltered = stats.filter(function filterMovieIds(item) {
+        return movieIds.indexOf(item.id) !== -1
       })
 
-      return reviewsFiltered
+      return statsFiltered
     } else {
-      return reviews
+      return stats
     }
   }
 
   static async deleteAll() {
-    return getDbHandler().set('reviews', [])
+    return getDbHandler().set('stats', [])
     .write()
   }
 }
