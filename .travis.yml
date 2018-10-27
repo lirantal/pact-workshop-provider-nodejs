@@ -3,14 +3,40 @@ node_js:
   - "8"
 install:
   - npm install
-script:
-  # run the provider contract testing
-  # we first begin by instantiating a real provider instance
-  - npm start &
-  # then we run the provider states management service
-  - npm run pact:provider:states &
-  # wait for the above services to be functional and ready
-  # to handle incoming requests
-  - npm run pact:provider:readyness
-  # run pact provider tests
-  - npm test
+
+jobs:
+  include:
+    - stage: consumers_dev_contracts
+      env:
+        - CONSUMERS_CONTRACT_TAG=develop
+      script:
+        # run the provider contract testing
+        # we first begin by instantiating a real provider instance
+        - npm start &
+        # then we run the provider states management service
+        - npm run pact:provider:states &
+        # wait for the above services to be functional and ready
+        # to handle incoming requests
+        - npm run pact:provider:readyness
+        # run pact provider tests for WIP contracts and allow
+        # this build to fail so it doesn't hold the provider
+        - npm test || exit 0
+    - stage: consumers_prod_contracts
+      env:
+        - CONSUMERS_CONTRACT_TAG=prod
+      script:
+        # run the provider contract testing
+        # we first begin by instantiating a real provider instance
+        - npm start &
+        # then we run the provider states management service
+        - npm run pact:provider:states &
+        # wait for the above services to be functional and ready
+        # to handle incoming requests
+        - npm run pact:provider:readyness
+        # run pact provider tests
+        - npm test
+
+stages:
+  - name: consumers_dev_contracts
+  - name: consumers_prod_contracts
+    if: branch = master AND type != pull_request

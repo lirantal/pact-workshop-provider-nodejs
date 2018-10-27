@@ -17,7 +17,7 @@ describe('Reviews Contract verification', () => {
       providerStatesSetupUrl: config.providerStatesSetupUrl,
       pactBrokerUrl: config.pactBrokerUrl,
       // Fetch from broker with given tags
-      tags: ['develop'],
+      tags: [config.pactConsumersTag],
       pactBrokerUsername: config.pactBrokerUsername,
       pactBrokerPassword: config.pactBrokerPassword,
       // Send verification results on failure
