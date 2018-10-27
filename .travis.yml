@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - "8"
+install:
+  - npm install
+script:
+  # run the provider contract testing
+  # we first begin by instantiating a real provider instance
+  - npm start &
+  # then we run the provider states management service
+  - npm run pact:provider:states &
+  # wait for the above services to be functional and ready
+  # to handle incoming requests
+  - npm run pact:provider:readyness
+  # run pact provider tests
+  - npm test
+after_success:
+  - npm run pact:publish:dev

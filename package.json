@@ -6,8 +6,7 @@
     "start": "node ./bin/www",
     "test": "jest",
     "pact:provider:states": "node tests/providerStates.js",
-    "pact:provider:cleanup": "ps -a | grep 'wait-on' | awk '{print $1}' | xargs kill -SIGTERM $1 & ps -a | grep 'node ./bin/www' | awk '{print $1}' | xargs kill -SIGTERM $1 & ps -a | grep 'node test/providerStates.js' | awk '{print $1}' | xargs kill -SIGTERM $1 ",
-    "pact:provider:readyness": "wait-on -d 2000 -r 'http://localhost:3002' && wait-on -d 2000 -r 'http://localhost:4011/health'",
+    "pact:provider:readyness": "wait-on 'http://localhost:3002/health' && wait-on 'http://localhost:4011/health'",
     "pact:provider:test": "npm run start & wait-on 'http://localhost:3002' && npm run pact:provider:states & wait-on 'http://localhost:4011/health' && npm run test",
     "pact:provider:prepare": "npm run pact:provider:cleanup & npm run pact:provider:readyness && npm run start & wait-on 'http://localhost:3002' && npm run pact:provider:states & wait-on 'http://localhost:4011/health' && npm run test",
     "pact:can-i-deploy": "$(find ./ -name pact-broker | grep -e 'bin/pact-broker$' | head -n 1) can-i-deploy --pacticipant 'Reviews' --latest --broker-base-url $BROKER_BASE_URL --broker-username $BROKER_USERNAME --broker-password $BROKER_PASSWORD"
