@@ -14,5 +14,3 @@ script:
   - npm run pact:provider:readyness
   # run pact provider tests
   - npm test
-after_success:
-  - npm run pact:publish:dev
